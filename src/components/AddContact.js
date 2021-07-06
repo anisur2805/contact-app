@@ -4,24 +4,36 @@ export default class AddContact extends Component {
   state = {
     name: "",
     email: "",
+    address: ""
   };
 
+  // Handle Form Submit
   handleSubmit = (e, addContactHandler) => {
     e.preventDefault();
-    if (this.state.name === "" || this.state.email === "") {
+    const { name, email, address } = this.state;
+    if (name === "" || email === "" || address === "") {
       alert("Please fill the form");
       return;
     }
-    this.props.addContactHandler(this.state);
-    this.setState({ name: "", email: "" });
-    console.log(this.state);
+
+    addContactHandler(this.state);
+    this.setState({ name: "", email: "", address: "" });
   };
+  
+  changeHandler = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
   render() {
-    const { name, email } = this.state;
+    const { addContactHandler } = this.props;
+    const { name, email, address } = this.state;
     return (
       <div className="ui main">
         <h3> Add Contact</h3>
-        <form className="ui form" onSubmit={this.handleSubmit}>
+        <form
+          className="ui form"
+          onSubmit={(e) => this.handleSubmit(e, addContactHandler)}>
           <div className="field">
             <label>Name</label>
             <input
@@ -29,7 +41,7 @@ export default class AddContact extends Component {
               name="name"
               placeholder="Name"
               value={name}
-              onChange={(e) => this.setState({ name: e.target.value })}
+              onChange={this.changeHandler}
             />
           </div>
           <div className="field">
@@ -39,7 +51,16 @@ export default class AddContact extends Component {
               name="email"
               placeholder="Email"
               value={email}
-              onChange={(e) => this.setState({ email: e.target.value })}
+              onChange={this.changeHandler}
+            />
+          </div>
+          <div className="field">
+            <label>Address</label>
+            <textarea 
+              name="address"
+              placeholder="Address"
+              value={address}
+              onChange={this.changeHandler}
             />
           </div>
           <button className="ui button blue" type="submit">

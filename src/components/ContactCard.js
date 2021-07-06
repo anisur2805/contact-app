@@ -1,8 +1,8 @@
 import React from "react";
 import user from "../images/lena.png";
 
-const ContactCard = ({ contact }) => {
-  const { id, name, email } = contact;
+const ContactCard = ({ contact, clickHandler }) => {
+  const { id, name, email, address} = contact;
   return (
     <div className="item">
       <div className="content">
@@ -10,9 +10,12 @@ const ContactCard = ({ contact }) => {
         <div className="header" style={{ marginLeft: "10px" }}>
           <div className="name">{name}</div>
           <div className="email">{email}</div>
+          <div className="email">{address}</div>
         </div>
         <div className="right floated content" style={{ marginLeft: "auto" }}>
-          <i className="trash alternate outline icon red"></i>
+          <i
+            className="trash alternate outline icon red"
+            onClick={() => clickHandler(id)}></i>
         </div>
       </div>
     </div>
