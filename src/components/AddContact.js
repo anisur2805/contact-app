@@ -4,11 +4,11 @@ export default class AddContact extends Component {
   state = {
     name: "",
     email: "",
-    address: ""
+    address: "",
   };
 
   // Handle Form Submit
-  handleSubmit = (e, addContactHandler) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, address } = this.state;
     if (name === "" || email === "" || address === "") {
@@ -16,24 +16,21 @@ export default class AddContact extends Component {
       return;
     }
 
-    addContactHandler(this.state);
+    this.props.addContactHandler(this.state); // Q2
     this.setState({ name: "", email: "", address: "" });
   };
-  
+
   changeHandler = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
   render() {
-    const { addContactHandler } = this.props;
     const { name, email, address } = this.state;
     return (
       <div className="ui main">
         <h3> Add Contact</h3>
-        <form
-          className="ui form"
-          onSubmit={(e) => this.handleSubmit(e, addContactHandler)}>
+        <form className="ui form" onSubmit={this.handleSubmit}>
           <div className="field">
             <label>Name</label>
             <input
@@ -56,7 +53,7 @@ export default class AddContact extends Component {
           </div>
           <div className="field">
             <label>Address</label>
-            <textarea 
+            <textarea
               name="address"
               placeholder="Address"
               value={address}
