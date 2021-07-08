@@ -2,9 +2,12 @@ import React from "react";
 import ContactCard from "./ContactCard";
 
 const ContactList = ({ contacts, getContactId }) => {
+  
+  // Q3
   const deleteContactHandler = (id) => {
     getContactId(id);
   };
+  
   const renderContactList = contacts.map((contact, index) => (
     <ContactCard contact={contact} key={index} clickHandler={deleteContactHandler} />
   ));
