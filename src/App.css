@@ -32,8 +32,8 @@
   float: right;
 }
 
-.right.btn {
-  /* margin-top: -15px; */
+.ui.container.aligned.header{
+  justify-content: center;
 }
 .btn {
   background: rgb(52, 49, 207);
