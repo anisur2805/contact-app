@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ContactCard from "./ContactCard";
 
-const ContactList = ({ contacts, getContactId }) => {
+const ContactList = (props) => {
   // Q3
   const deleteContactHandler = (id) => {
-    getContactId(id);
+    props.getContactId(id);
   };
 
-  const renderContactList = contacts.map((contact, index) => (
+  const renderContactList = props.contacts.map((contact, index) => (
     <ContactCard
       contact={contact}
       key={index}
@@ -23,7 +23,7 @@ const ContactList = ({ contacts, getContactId }) => {
           <button className="btn blue right">Add Contact</button>
         </Link>
       </h2>
-      {contacts.length > 0 ?  renderContactList : <h5>No Contact address, please add contact first</h5>}
+      {props.contacts.length > 0 ?  renderContactList : <h5>No Contact address, please add contact first</h5>}
     </div>
   );
 };
