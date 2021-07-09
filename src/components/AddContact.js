@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom"
 
 export default class AddContact extends Component {
   state = {
@@ -18,6 +19,7 @@ export default class AddContact extends Component {
 
     this.props.addContactHandler(this.state); // Q2
     this.setState({ name: "", email: "", address: "" });
+    this.props.history.push("/")
   };
 
   changeHandler = (e) => {
@@ -29,7 +31,7 @@ export default class AddContact extends Component {
     const { name, email, address } = this.state;
     return (
       <div className="ui main">
-        <h3> Add Contact</h3>
+        <h2> Add Contact</h2>
         <form className="ui form" onSubmit={this.handleSubmit}>
           <div className="field">
             <label>Name</label>
@@ -61,8 +63,12 @@ export default class AddContact extends Component {
             />
           </div>
           <button className="ui button blue" type="submit">
-            Submit
+            Add Contact
           </button>
+          
+          <Link to="/" className="ui button warning" type="submit">
+            Cancel
+          </Link>
         </form>
       </div>
     );

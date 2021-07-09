@@ -24,3 +24,54 @@
 .ui.main {
   margin-top: 80px;
 }
+.ui.celled.list {
+  margin-top: 80px;
+}
+
+.right {
+  float: right;
+}
+
+.right.btn {
+  /* margin-top: -15px; */
+}
+.btn {
+  background: rgb(52, 49, 207);
+  color: #fff;
+  border: 0;
+  padding: 8px 15px;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.ui.centered.card {
+  text-align: center;
+}
+
+.single-contact {
+  margin-top: 80px !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.single-contact .image {
+  margin: 15px auto;
+  background:transparent !important;
+}
+.single-contact .image img {
+  max-width: 150px;
+  width: auto !important;
+  height: auto !important;
+}
+.single-contact .content {
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-white {
+  color: #fff !important;
+}

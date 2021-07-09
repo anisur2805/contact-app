@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AddContact from "./components/AddContact";
 import ContactList from "./components/ContactList";
 import Header from "./components/Header";
+import ContactDetail from "./components/ContactDetail";
 import { uuid } from "uuidv4";
 
 import "./App.css";
@@ -28,7 +30,7 @@ function App() {
     );
     if (retrieveContacts) setContacts(retrieveContacts);
   }, []);
-  
+
   // Set Contact in Local Store
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
@@ -36,9 +38,31 @@ function App() {
 
   return (
     <div className="ui container ">
-      <Header />
-      <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} getContactId={removeContactHandler} />
+      <Router>
+        <Header />
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={(props) => (
+              <ContactList
+                {...props}
+                contacts={contacts}
+                getContactId={removeContactHandler}
+              />
+            )}
+          />
+
+          <Route
+            path="/add"
+            render={(props) => (
+              <AddContact {...props} addContactHandler={addContactHandler} />
+            )}
+          />
+
+          <Route path="/contact/:id" component={ContactDetail} />
+        </Switch>
+      </Router>
     </div>
   );
 }
