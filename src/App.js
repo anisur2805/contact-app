@@ -6,6 +6,7 @@ import ContactList from "./components/ContactList";
 import EditContact from "./components/EditContact";
 import Header from "./components/Header";
 import ContactDetail from "./components/ContactDetail";
+
 import { uuid } from "uuidv4";
 
 import "./App.css";
@@ -13,6 +14,8 @@ import "./App.css";
 function App() {
   const LOCAL_STORAGE_KEY = "contacts";
   const [contacts, setContacts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   // Retrieve Contact from JSON SERVER
   const retrieveContacts = async () => {
@@ -28,18 +31,35 @@ function App() {
     };
     const response = await api.post("/contacts", request);
     setContacts([...contacts, response.data]);
-    // setContacts([...contacts, { id: uuid(), ...contact }]); // Q1
+    // setContacts([...contacts, { id: uuid(), ...contact }]);
   };
 
   // Update Contact
   const editContactHandler = async (contact) => {
     const response = await api.put(`/contacts/${contact.id}`, contact);
     // setContacts([...contacts, response.data]);
-    console.log(response.data)
-    const {id, name, email, address} = response.data;
-    setContacts(contacts.map((contact) => {
-      return contact.id === id ? {...response.data} : contact
-    }))
+    console.log(response.data);
+    const { id, name, email, address } = response.data;
+    setContacts(
+      contacts.map((contact) => {
+        return contact.id === id ? { ...response.data } : contact;
+      })
+    );
+  };
+
+  const searchHandler = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newContactList = contacts.filter((contact) => {
+        return Object.values(contact)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+      setSearchResult(newContactList);
+    } else {
+      setSearchResult(contacts);
+    }
   };
 
   // Remove Contact
@@ -80,8 +100,10 @@ function App() {
             render={(props) => (
               <ContactList
                 {...props}
-                contacts={contacts}
+                contacts={searchTerm.length < 1 ? contacts : searchResult}
                 getContactId={removeContactHandler}
+                term={searchTerm}
+                searchKeyword={searchHandler}
               />
             )}
           />
@@ -92,7 +114,7 @@ function App() {
               <AddContact {...props} addContactHandler={addContactHandler} />
             )}
           />
-          
+
           <Route
             path="/edit"
             render={(props) => (
