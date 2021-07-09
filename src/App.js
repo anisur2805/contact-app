@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import api from "./api/contacts";
 import AddContact from "./components/AddContact";
 import ContactList from "./components/ContactList";
+import EditContact from "./components/EditContact";
 import Header from "./components/Header";
 import ContactDetail from "./components/ContactDetail";
 import { uuid } from "uuidv4";
@@ -28,6 +29,17 @@ function App() {
     const response = await api.post("/contacts", request);
     setContacts([...contacts, response.data]);
     // setContacts([...contacts, { id: uuid(), ...contact }]); // Q1
+  };
+
+  // Update Contact
+  const editContactHandler = async (contact) => {
+    const response = await api.put(`/contacts/${contact.id}`, contact);
+    // setContacts([...contacts, response.data]);
+    console.log(response.data)
+    const {id, name, email, address} = response.data;
+    setContacts(contacts.map((contact) => {
+      return contact.id === id ? {...response.data} : contact
+    }))
   };
 
   // Remove Contact
@@ -78,6 +90,13 @@ function App() {
             path="/add"
             render={(props) => (
               <AddContact {...props} addContactHandler={addContactHandler} />
+            )}
+          />
+          
+          <Route
+            path="/edit"
+            render={(props) => (
+              <EditContact {...props} editContactHandler={editContactHandler} />
             )}
           />
 
